@@ -1,1 +1,1 @@
-from .header import get_header, get_logo, get_menu, Header
+from .header import get_header, get_menu, Header

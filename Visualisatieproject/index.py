@@ -17,7 +17,7 @@ app.index_string = '''
 <html>
     <head>
         {%metas%}
-        <title>Stark Performance Marketing Report</title>
+        <title>Data Science 3 EEG Project</title>
         {%favicon%}
         {%css%}
     </head>
@@ -27,7 +27,7 @@ app.index_string = '''
             {%config%}
             {%scripts%}
         </footer>
-        <div>Stark Performance Marketing Report</div>
+        <div>Data Science 3 EEG Project</div>
     </body>
 </html>
 '''
@@ -41,7 +41,11 @@ app.layout = html.Div([
 # # # # # # # # #
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
-def display_page(pathname): return noPage
+def display_page(pathname):
+    if  pathname == '/index/':
+        return noPage
+    else:
+        return noPage
     # if pathname == '/cc-travel-report' or pathname == '/cc-travel-report/overview-birst/':
     #     return layout_birst_category
     # elif pathname == '/cc-travel-report/overview-ga/':

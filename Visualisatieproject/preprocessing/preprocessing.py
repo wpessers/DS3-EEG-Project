@@ -51,13 +51,18 @@ class Preprocessing():
     def get_electrodes_data(self, df, start, end, electrodes):
         electrode_group_dict = {}
         for electrode in electrodes:
-            electrode_dict = {}
-            raw_df = df.loc[start:end, electrode]
-            electrode_dict["data"] = json.loads(raw_df.to_json(orient="records"))
-            electrode_dict["stats"] = self.get_statistics(raw_df)
-            electrode_group_dict[electrode] = electrode_dict
+            #electrode_dict = {}
+            #raw_df = df.loc[start:end, electrode]
+
+            #electrode_dict["data"] = json.loads(raw_df.to_json(orient="records"))
+            #electrode_dict["stats"] = self.get_statistics(raw_df)
+
+            electrode_group_dict[electrode] = json.loads(df.loc[start:end, electrode].to_json(orient="records"))
         return electrode_group_dict
 
+    #Voorlopig achterwege laten
+    #TODO: Antwoord afwachten van H. De Smet
+    '''
     def get_statistics(self, df: pd.DataFrame):
         stats_dict = {"min": df.min(),
                       "max": df.max(),
@@ -66,6 +71,7 @@ class Preprocessing():
                       "stddev": df.std(ddof=0),
                       "variance": df.var(ddof=0)}
         return stats_dict
+    '''
 
     def write_json_file(self, dict, name, stimulus):
         self.organize_dirs()

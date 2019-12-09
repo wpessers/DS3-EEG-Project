@@ -3,7 +3,6 @@ from Visualisatieproject.preprocessing.preprocessing import Preprocessing
 
 
 def main():
-
     data_dir = "../res/"
     electrode_list = ["Anterior Frontal", ["AF3", "AF4"],
                       "Frontal", ["F7", "F3", "F4", "F8"],

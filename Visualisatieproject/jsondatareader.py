@@ -11,3 +11,5 @@ class JsonDataReader:
         df_list = [pd.DataFrame.from_dict(data[electrode_group]) for electrode_group in electrode_groups]
         df = pd.concat(df_list, axis=1)
         df = df.loc[:, ~df.columns.duplicated()]
+
+        return df

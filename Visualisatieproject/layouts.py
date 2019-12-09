@@ -1,12 +1,13 @@
 import dash_html_components as html
 import dash_core_components as dcc
+from Visualisatieproject.callbacks import *
 from Visualisatieproject.components import Header
 
 noPage = html.Div([
     # CC Header
     Header(),
     html.P(["404 Page not found"])
-    ], className="no-page")
+    ], className="container")
 
 graph1 = html.Div([
     Header(),
@@ -18,7 +19,7 @@ graph1 = html.Div([
     ),
     html.Div(
         [
-            dcc.Dropdown(id="selected-value", multi=True, value="AF3",
+            dcc.Dropdown(id="selected-value", multi=True, value=['AF3'],
                          options=[{"label": "AF3", "value": "AF3"}])
         ],
         className="row", style={"display": "block", "width": "60%", "margin-left": "auto",

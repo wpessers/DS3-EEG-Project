@@ -26,6 +26,9 @@ def update_figure(selected, time):
     text = {
         "AF3": "AF3",
     }
+
+    print(selected)
+
     dff = df[(df.index >= time[0]) & (df.index <= time[1])]
     trace = []
     for type in selected:

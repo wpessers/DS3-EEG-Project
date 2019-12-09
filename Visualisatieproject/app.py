@@ -53,23 +53,5 @@ app.layout = html.Div([
     )
 ], className="container")
 
-
-@app.callback(
-    Output('my-graph', 'figure'),
-    [Input('selected-value', 'value'), Input('ms-range', 'value')])
-def update_figure(selected, time):
-    text = {
-        "AF3": "AF3",
-    }
-    dff = df[(df.index >= time[0]) & (df.index <= time[1])]
-    trace = []
-    for type in selected:
-        trace.append(go.Scatter(x=dff.index, y=dff[type], name=text[type], mode='lines',
-                                marker={'size': 8, "opacity": 0.6, "line": {'width': 0.5}}, ))
-    return {"data": trace,
-            "layout": go.Layout(title="Evolutie Spanning", colorway=['#fdae61', '#abd9e9', '#2c7bb6'],
-                                yaxis={"title": "Spanning ( µV )"}, xaxis={"title": "Tijdstip"})}
-
-
 if __name__ == '__main__':
     app.run_server(debug=True)

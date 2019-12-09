@@ -4,7 +4,7 @@ from dash.dependencies import Input, Output
 # see https://community.plot.ly/t/nolayoutexception-on-deployment-of-multi-page-dash-app-example-code/12463/2?u=dcomfort
 from Visualisatieproject.app import server
 from Visualisatieproject.app import app
-from Visualisatieproject.layouts import noPage
+from Visualisatieproject.layouts import noPage, graph1
 # from layouts import layout_birst_category, layout_ga_category, layout_paid_search, noPage, layout_display,
 # layout_publishing, layout_metasearch
 
@@ -44,6 +44,8 @@ app.layout = html.Div([
 def display_page(pathname):
     if  pathname == '/index/':
         return noPage
+    if  pathname == '/graph1/':
+        return graph1
     else:
         return noPage
     # if pathname == '/cc-travel-report' or pathname == '/cc-travel-report/overview-birst/':

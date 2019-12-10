@@ -2,3 +2,4 @@
 res/output/
 ./Visualisatieproject/preprocessing/__pycache__
 ./Visualisatieproject/__pycache__
+*.pyc

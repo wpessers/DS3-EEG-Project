@@ -7,7 +7,7 @@ noPage = html.Div([
     # CC Header
     Header(),
     html.P(["404 Page not found"])
-    ], className="container")
+    ], className="page")
 
 graph1 = html.Div([
     Header(),
@@ -22,7 +22,7 @@ graph1 = html.Div([
             dcc.Dropdown(id="selected-value", multi=True, value=['AF3'],
                          options=[{"label": "AF3", "value": "AF3"}])
         ],
-        className="row", style={"display": "block", "width": "60%", "margin-left": "auto",
+        className="row", style={"display": "block", "width": "100%", "margin-left": "auto",
                                 "margin-right": "auto"}
     ),
     html.Div(
@@ -37,4 +37,4 @@ graph1 = html.Div([
                                 "208": str(208), "224": str(224), "240": str(240),
                                 "256": str(256)})]
     )
-], className="container")
+], className="page")

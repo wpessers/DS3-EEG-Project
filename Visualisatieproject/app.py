@@ -20,7 +20,7 @@ df = JsonDataReader.read_to_df(electrode_list[0::2])
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets, url_base_pathname='/ds3/')
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 app.config.suppress_callback_exceptions = True
 

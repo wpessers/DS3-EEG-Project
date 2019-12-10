@@ -1,12 +1,9 @@
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-# see https://community.plot.ly/t/nolayoutexception-on-deployment-of-multi-page-dash-app-example-code/12463/2?u=dcomfort
 from Visualisatieproject.app import server
 from Visualisatieproject.app import app
 from Visualisatieproject.layouts import noPage, graph1
-# from layouts import layout_birst_category, layout_ga_category, layout_paid_search, noPage, layout_display,
-# layout_publishing, layout_metasearch
 
 import pandas as pd
 import io
@@ -34,7 +31,8 @@ app.index_string = '''
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content')
+    html.Div(
+        id='page-content')
 ])
 
 # Update page
@@ -48,20 +46,6 @@ def display_page(pathname):
         return graph1
     else:
         return noPage
-    # if pathname == '/cc-travel-report' or pathname == '/cc-travel-report/overview-birst/':
-    #     return layout_birst_category
-    # elif pathname == '/cc-travel-report/overview-ga/':
-    #     return layout_ga_category
-    # elif pathname == '/cc-travel-report/paid-search/':
-    #     return layout_paid_search
-    # elif pathname == '/cc-travel-report/display/':
-    #     return layout_display
-    # elif pathname == '/cc-travel-report/publishing/':
-    #     return layout_publishing
-    # elif pathname == '/cc-travel-report/metasearch-and-travel-ads/':
-    #     return layout_metasearch
-    # else:
-    #     return noPage
 
 # # # # # # # # #
 # detail the way that external_css and external_js work and link to alternative method locally hosted

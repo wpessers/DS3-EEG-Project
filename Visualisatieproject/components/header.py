@@ -11,7 +11,6 @@ def Header():
 
 def get_header():
     header = html.Div([
-
         html.Div([
             html.H5(
                 'Data Science 3 EEG Project')

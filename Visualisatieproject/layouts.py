@@ -1,5 +1,6 @@
 import dash_html_components as html
 import dash_core_components as dcc
+import plotly.graph_objs as go
 from Visualisatieproject.callbacks import *
 from Visualisatieproject.components import Header
 
@@ -7,7 +8,7 @@ noPage = html.Div([
     # CC Header
     Header(),
     html.P(["404 Page not found"])
-    ], className="page")
+], className="page")
 
 graph1 = html.Div([
     Header(),
@@ -36,5 +37,33 @@ graph1 = html.Div([
                                 "160": str(160), "176": str(176), "192": str(192),
                                 "208": str(208), "224": str(224), "240": str(240),
                                 "256": str(256)})]
+    )
+], className="page")
+
+graph2 = html.Div([
+    Header(),
+    html.Div(
+        [
+            html.H1("Correlation between EEG Data From Barbara")
+        ],
+        style={"textAlign": "center"}
+    ),
+    html.Div(
+        [
+            dcc.Graph(id="second-graph",
+                      figure={
+                          "data": [{
+                              "x": reversedcordf.columns.tolist(),
+                              "y": reversedcordf.index.tolist(),
+                              "z": reversedcordf.values.tolist(),
+                              "type": "heatmap"
+                              # todo: colorscale
+                          }],
+                          "layout": {
+                              "height": 700
+                          }
+
+                      })
+        ]
     )
 ], className="page")

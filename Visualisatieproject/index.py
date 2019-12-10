@@ -3,7 +3,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 from Visualisatieproject.app import server
 from Visualisatieproject.app import app
-from Visualisatieproject.layouts import noPage, graph1
+from Visualisatieproject.layouts import noPage, graph1, graph2
 
 import pandas as pd
 import io
@@ -44,6 +44,8 @@ def display_page(pathname):
         return noPage
     if  pathname == '/graph1/':
         return graph1
+    if pathname == "/graph2/":
+        return graph2
     else:
         return noPage
 

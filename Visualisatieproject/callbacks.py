@@ -19,14 +19,27 @@ electrode_list = ["Anterior Frontal", ["AF3", "AF4"],
 
 df = JsonDataReader.read_to_df(electrode_list[0::2])
 
+
 @app.callback(
     Output('my-graph', 'figure'),
     [Input('selected-value', 'value'), Input('ms-range', 'value')])
 def update_figure(selected, time):
     text = {
         "AF3": "AF3",
+        "AF4":"AF4",
+        "F7": "F7",
+        "F3": "F3",
+        "F4": "F4",
+        "F8": "F8",
+        "FC5": "FC5",
+        "FC6": "FC6",
+        "T7": "T7",
+        "T8": "T8",
+        "P7": "P7",
+        "P8": "P8",
+        "O1": "O1",
+        "O2": "O2"
     }
-    print(selected)
 
     dff = df[(df.index >= time[0]) & (df.index <= time[1])]
     trace = []

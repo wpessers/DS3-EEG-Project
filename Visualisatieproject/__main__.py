@@ -15,7 +15,7 @@ def main():
     p = Preprocessing(data_dir, electrode_list)
     p.preprocess()
 
-    JsonDataReader.read_to_df(electrode_list[0::2])
+    #JsonDataReader.read_to_df(electrode_list[0::2])
 
 if __name__ == "__main__":
     main()

@@ -26,6 +26,8 @@ class Preprocessing():
             person_name = str(re.findall(r"(.+)_", str(os.path.basename(str(csv_file)))))[2:-2]
             df = pd.read_csv(csv_file, sep="\t")
             df = df[df["INTERPOLATED"].notnull()]
+            df = df.round(4)
+            print(df)
             self.dataframe_to_json(df, person_name)
 
     def dataframe_to_json(self, df, person_name, rows=256):

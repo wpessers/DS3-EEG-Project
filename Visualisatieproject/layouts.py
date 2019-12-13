@@ -1,5 +1,6 @@
 import dash_html_components as html
 import dash_core_components as dcc
+import plotly.graph_objs as go
 from Visualisatieproject.callbacks import *
 from Visualisatieproject.components import Header
 
@@ -43,12 +44,37 @@ graph1 = html.Div([
         [dcc.Graph(id="my-graph")]
     ),
     html.Div(
-        [dcc.RangeSlider(id="ms-range", min=0, max=256, step=1, value=[0, 256],
-                         marks={"16": str(16), "32": str(32), "48": str(48),
-                                "64": str(64), "80": str(80), "96": str(96),
-                                "112": str(112), "128": str(128), "144": str(144),
-                                "160": str(160), "176": str(176), "192": str(192),
-                                "208": str(208), "224": str(224), "240": str(240),
-                                "256": str(256)})]
+        [dcc.RangeSlider(id="ms-range", min=0, max=2000, step=7.8125, value=[0, 2000],
+                         marks={"200": str(200), "400": str(400), "600": str(600),
+                                "800": str(800), "1000": str(1000), "1200": str(1200),
+                                "1400": str(1400), "1600": str(1600), "1800": str(1800)})]
+    )
+], className="page")
+
+graph2 = html.Div([
+    Header(),
+    html.Div(
+        [
+            html.H1("Correlation between EEG Data From Barbara")
+        ],
+        style={"textAlign": "center"}
+    ),
+    html.Div(
+        [
+            dcc.Graph(id="second-graph",
+                      figure={
+                          "data": [{
+                              "x": reversedcordf.columns.tolist(),
+                              "y": reversedcordf.index.tolist(),
+                              "z": reversedcordf.values.tolist(),
+                              "type": "heatmap"
+                              # todo: colorscale
+                          }],
+                          "layout": {
+                              "height": 700
+                          }
+
+                      })
+        ]
     )
 ], className="page")

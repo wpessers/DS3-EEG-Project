@@ -18,7 +18,8 @@ electrode_list = ["Anterior Frontal", ["AF3", "AF4"],
                   "Linguistic", ["F7", "T7"]]
 
 df = JsonDataReader.read_to_df(electrode_list[0::2])
-
+cordf = df.corr()
+reversedcordf = cordf.iloc[::-1]
 
 @app.callback(
     Output('my-graph', 'figure'),
@@ -41,11 +42,12 @@ def update_figure(selected, time):
         "O2": "O2"
     }
 
-    dff = df[(df.index >= time[0]) & (df.index <= time[1])]
+    dff = df[(df.index >= (time[0]/7.8125)) & (df.index <= (time[1]/7.8125))]
     trace = []
     for type in selected:
-        trace.append(go.Scatter(x=dff.index, y=dff[type], name=text[type], mode='lines',
+        trace.append(go.Scatter(x=(dff.index*7.8125), y=dff[type], name=text[type], mode='lines',
                                 marker={'size': 8, "opacity": 0.6, "line": {'width': 0.5}}, ))
     return {"data": trace,
             "layout": go.Layout(title="Evolutie Spanning", colorway=['#fdae61', '#abd9e9', '#2c7bb6'],
                                 yaxis={"title": "Spanning ( µV )"}, xaxis={"title": "Tijdstip"})}
+

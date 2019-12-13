@@ -1,6 +1,7 @@
 import dash_html_components as html
 import dash_core_components as dcc
 import plotly.graph_objs as go
+import colorlover as cl
 from Visualisatieproject.callbacks import *
 from Visualisatieproject.components import Header
 
@@ -61,20 +62,37 @@ graph2 = html.Div([
     ),
     html.Div(
         [
-            dcc.Graph(id="second-graph",
-                      figure={
-                          "data": [{
-                              "x": reversedcordf.columns.tolist(),
-                              "y": reversedcordf.index.tolist(),
-                              "z": reversedcordf.values.tolist(),
-                              "type": "heatmap"
-                              # todo: colorscale
-                          }],
-                          "layout": {
-                              "height": 700
-                          }
-
-                      })
+            dcc.Graph(
+                id="second-graph",
+                figure=dict(
+                    data=[
+                        dict(
+                            x=reversedcordf.columns.tolist(),
+                            y=reversedcordf.index.tolist(),
+                            z=reversedcordf.values.tolist(),
+                            zmin=-1,
+                            zmax=1,
+                            type="heatmap",
+                            colorscale=[
+                                [0, "rgb(111, 0, 0)"],
+                                [0.1, "rgb(161, 41, 29)"],
+                                [0.2, "rgb(208, 82, 59)"],
+                                [0.3, "rgb(238, 133, 105)"],
+                                #[0.4, "rgb(252, 188, 167)"],
+                                [0.5, "rgb(255, 255, 130)"],
+                                #[0.6, "rgb(101, 226, 151)"],
+                                [0.7, "rgb(49, 183, 109)"],
+                                [0.8, "rgb(2, 141, 70)"],
+                                [0.9, "rgb(0, 99, 34)"],
+                                [1.0, "rgb(0, 60, 0)"]
+                            ]
+                        )
+                    ],
+                    layout=dict(
+                        height=700
+                    )
+                )
+            )
         ]
     )
 ], className="page")

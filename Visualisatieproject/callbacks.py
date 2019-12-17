@@ -18,6 +18,7 @@ electrode_list = ["Anterior Frontal", ["AF3", "AF4"],
                   "Linguistic", ["F7", "T7"]]
 
 df = JsonDataReader.read_to_df(electrode_list[0::2])
+print(df)
 cordf = df.corr()
 reversedcordf = cordf.iloc[::-1]
 
@@ -50,4 +51,11 @@ def update_figure(selected, time):
     return {"data": trace,
             "layout": go.Layout(title="Evolutie Spanning", colorway=['#fdae61', '#abd9e9', '#2c7bb6'],
                                 yaxis={"title": "Spanning ( µV )"}, xaxis={"title": "Tijdstip"})}
+
+@app.callback(Output('hidden-div', 'children'), [Input('second-graph', 'clickData')])
+def on_heatmap_click(data):
+    if data is not None:
+        print(data)
+
+
 

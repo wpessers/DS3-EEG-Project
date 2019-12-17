@@ -60,6 +60,7 @@ graph2 = html.Div([
         ],
         style={"textAlign": "center"}
     ),
+    html.Div(id='hidden-div', style={'display':'none'}),
     html.Div(
         [
             dcc.Graph(

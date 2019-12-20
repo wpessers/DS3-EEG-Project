@@ -56,7 +56,7 @@ graph2 = html.Div([
     Header(),
     html.Div(
         [
-            html.H1("Correlation between EEG Data From Barbara")
+            html.H1(id="h1_title", children="Correlation between EEG Data From Barbara")
         ],
         style={"textAlign": "center"}
     ),
@@ -95,5 +95,39 @@ graph2 = html.Div([
                 )
             )
         ]
+    )
+], className="page")
+
+graph3 = html.Div([
+    Header(),
+    html.Div(
+        [
+            html.H1("EEG Data From Barbara - Group Average")
+        ],
+        style={'textAlign': "center"}
+    ),
+    html.Div(
+        [
+            dcc.Dropdown(id="selected-value-third-graph", multi=True,
+                         value=["Anterior Frontal", "Frontal", "Central", "Temporal", "Posterior", "Occipital", "Linguistic"],
+                         options=[{"label": "Anterior Frontal", "value": "Anterior Frontal"},
+                                  {"label": "Frontal", "value": "Frontal"},
+                                  {"label": "Central", "value": "Central"},
+                                  {"label": "Temporal", "value": "Temporal"},
+                                  {"label": "Posterior", "value": "Posterior"},
+                                  {"label": "Occipital", "value": "Occipital"},
+                                  {"label": "Linguistic", "value": "Linguistic"}])
+        ],
+        className="row", style={"display": "block", "width": "100%", "margin-left": "auto",
+                                "margin-right": "auto"}
+    ),
+    html.Div(
+        [dcc.Graph(id="third-graph")]
+    ),
+    html.Div(
+        [dcc.RangeSlider(id="ms-range-third-graph", min=0, max=2000, step=7.8125, value=[0, 2000],
+                         marks={"200": str(200), "400": str(400), "600": str(600),
+                                "800": str(800), "1000": str(1000), "1200": str(1200),
+                                "1400": str(1400), "1600": str(1600), "1800": str(1800)})]
     )
 ], className="page")

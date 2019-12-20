@@ -22,10 +22,20 @@ electrode_list = ["Anterior Frontal", ["AF3", "AF4"],
 
 df = JsonDataReader.read_to_df(electrode_list[0::2])
 print(df)
+
 cordf = df.corr()
 reversedcordf = cordf.iloc[::-1]
 print(reversedcordf)
 
+average_df = pd.DataFrame()
+average_df['Linguistic'] = df[['F7', 'T7']].mean(axis=1)
+average_df['Anterior Frontal'] = df[['AF3', 'AF4']].mean(axis=1)
+average_df['Frontal'] = df[['F7', 'F3', 'F4', 'F8']].mean(axis=1)
+average_df['Central'] = df[['FC5', 'FC6']].mean(axis=1)
+average_df['Temporal'] = df[['T7', 'T8']].mean(axis=1)
+average_df['Posterior'] = df[['P7', 'P8']].mean(axis=1)
+average_df['Occipital'] = df[['O1', 'O2']].mean(axis=1)
+print(average_df)
 
 
 @app.callback(
@@ -58,7 +68,10 @@ def update_figure(selected, time):
             "layout": go.Layout(title="Evolutie Spanning", colorway=['#fdae61', '#abd9e9', '#2c7bb6'],
                                 yaxis={"title": "Spanning ( µV )"}, xaxis={"title": "Tijdstip"})}
 
-@app.callback(Output('second-graph', 'figure'), [Input('second-graph', 'clickData')])
+@app.callback(
+    [Output('second-graph', 'figure'),
+     Output('h1_title', 'children')],
+    [Input('second-graph', 'clickData')])
 def on_heatmap_click(data):
     if data is not None:
         print(data)
@@ -85,6 +98,7 @@ def on_heatmap_click(data):
         trace1 = {
             'x': df[x],
             'y': df[y],
+            'name': 'data points',
             'mode': 'markers',
             'marker': {
                 'size': 5
@@ -97,6 +111,7 @@ def on_heatmap_click(data):
                 "color": "rgb(68, 122, 219)",
                 "width": 2
             },
+            'name': 'regression line',
             "mode": "lines",
             "type": "scatter",
             'x': lin_x,
@@ -107,34 +122,40 @@ def on_heatmap_click(data):
             'data': [trace1, trace2],
             'layout': {
                 "height": 700,
-                "shapes": shapes
+                "shapes": shapes,
+                'xaxis': {
+                    'title': x
+                },
+                'yaxis': {
+                    'title': y
+                }
             }
-        }
+        }, "Lineair regression between {} and {} From Barbara".format(x, y)
 
-
-    return {
-        'data': [dict(
-                    x=reversedcordf.columns.tolist(),
-                    y=reversedcordf.index.tolist(),
-                    z=reversedcordf.values.tolist(),
-                    zmin=-1,
-                    zmax=1,
-                    type="heatmap",
-                    colorscale=[
-                        [0, "rgb(111, 0, 0)"],
-                        [0.1, "rgb(161, 41, 29)"],
-                        [0.2, "rgb(208, 82, 59)"],
-                        [0.3, "rgb(238, 133, 105)"],
-                        #[0.4, "rgb(252, 188, 167)"],
-                        [0.5, "rgb(255, 255, 130)"],
-                        #[0.6, "rgb(101, 226, 151)"],
-                        [0.7, "rgb(49, 183, 109)"],
-                        [0.8, "rgb(2, 141, 70)"],
-                        [0.9, "rgb(0, 99, 34)"],
-                        [1.0, "rgb(0, 60, 0)"]]
-        )],
-        'layout': dict(height=700)
+@app.callback(
+    Output('third-graph', 'figure'),
+    [Input('selected-value-third-graph', 'value'), Input('ms-range-third-graph', 'value')])
+def update_third_graph(selected, time):
+    text = {
+        "Anterior Frontal": "Anterior Frontal",
+        "Frontal":"Frontal",
+        "Central": "Central",
+        "Temporal": "Temporal",
+        "Posterior": "Posterior",
+        "Occipital": "Occipital",
+        "Linguistic": "Linguistic"
     }
 
+    dff = average_df[(average_df.index >= (time[0]/7.8125)) & (average_df.index <= (time[1]/7.8125))]
+    trace = []
+    for type in selected:
+        if type == "Linguistic":
+            trace.append(go.Scatter(x=(dff.index * 7.8125), y=dff[type], name=text[type], mode='lines',
+                                    marker={'size': 8, "opacity": 0.6, "line": {'width': 0.5}, "color": "blue"}, ))
+        else:
+            trace.append(go.Scatter(x=(dff.index * 7.8125), y=dff[type], name=text[type], mode='lines',
+                                    marker={'size': 8, "opacity": 0.6, "line": {'width': 0.5}, "color": "lightgrey"}, ))
 
-
+    return {"data": trace,
+            "layout": go.Layout(title="Evolutie Spanning", colorway=['#fdae61', '#abd9e9', '#2c7bb6'],
+                                yaxis={"title": "Spanning ( µV )"}, xaxis={"title": "Tijdstip"})}

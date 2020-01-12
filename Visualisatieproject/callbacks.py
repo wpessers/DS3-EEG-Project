@@ -8,7 +8,6 @@ from dash.dependencies import Input, Output
 from Visualisatieproject.jsondatareader import JsonDataReader
 from Visualisatieproject.preprocessing.preprocessing import Preprocessing
 
-
 electrode_list = ["Anterior Frontal", ["AF3", "AF4"],
                   "Frontal", ["F7", "F3", "F4", "F8"],
                   "Central", ["FC5", "FC6"],
@@ -20,22 +19,43 @@ electrode_list = ["Anterior Frontal", ["AF3", "AF4"],
 person = "Barbara"
 stimulus = "beloof"
 
-df = JsonDataReader.read_to_df(electrode_list[0::2], person, stimulus)
-#print(df)
+@app.callback(
+    Output('second-graph', 'figure'),
+    [Input('ms-range-heat', 'value')])
+def update_second_graph(time):
+    print(time)
+    df = JsonDataReader.read_to_df(electrode_list[0::2], person, stimulus)
+    cordf = df.corr()
+    reversedcordf = cordf.iloc[::-1]
 
-cordf = df.corr()
-reversedcordf = cordf.iloc[::-1]
-#print(reversedcordf)
+    data = [dict(
+        x=reversedcordf.columns.tolist(),
+        y=reversedcordf.index.tolist(),
+        z=reversedcordf.values.tolist(),
+        zmin=-1,
+        zmax=1,
+        type="heatmap",
+        colorscale=[
+            [0, "rgb(140, 0, 10)"],
+            [0.1, "rgb(160, 40, 30)"],
+            [0.2, "rgb(210, 80, 60)"],
+            [0.3, "rgb(238, 132, 106"],
+            [0.4, "rgb(252, 188, 168)"],
+            [0.5, "rgb(250, 250, 250)"],
+            [0.6, "rgb(100, 226, 150"],
+            [0.7, "rgb(50, 182, 110)"],
+            [0.8, "rgb(0, 140, 70)"],
+            [0.9, "rgb(0, 100, 34)"],
+            [1.0, "rgb(0, 60, 0)"]
+        ]
+    )]
 
-average_df = pd.DataFrame()
-average_df['Linguistic'] = df[['F7', 'T7']].mean(axis=1)
-average_df['Anterior Frontal'] = df[['AF3', 'AF4']].mean(axis=1)
-average_df['Frontal'] = df[['F7', 'F3', 'F4', 'F8']].mean(axis=1)
-average_df['Central'] = df[['FC5', 'FC6']].mean(axis=1)
-average_df['Temporal'] = df[['T7', 'T8']].mean(axis=1)
-average_df['Posterior'] = df[['P7', 'P8']].mean(axis=1)
-average_df['Occipital'] = df[['O1', 'O2']].mean(axis=1)
-#print(average_df)
+    layout = dict(height=700)
+
+    return {
+        "data": data,
+        "layout": layout
+    }
 
 
 @app.callback(
@@ -84,6 +104,8 @@ def update_figure(time):
         "O2": "O2"
     }
 
+    df = JsonDataReader.read_to_df(electrode_list[0::2], person, stimulus)
+
     dff = df[(df.index >= (time[0] / 7.8125)) & (df.index <= (time[1] / 7.8125))]
     trace = []
     for type in selected:
@@ -96,11 +118,13 @@ def update_figure(time):
 
 
 @app.callback(
-    [Output('second-graph', 'figure'),
-     Output('h1_title', 'children')],
+    [Output('fourth-graph', 'figure'),
+     Output('h2_title', 'children')],
     [Input('second-graph', 'clickData')])
 def on_heatmap_click(data):
     if data is not None:
+        df = JsonDataReader.read_to_df(electrode_list[0::2], person, stimulus)
+
         x = data['points'][0]['x']
         y = data['points'][0]['y']
         plt.clf()
@@ -173,6 +197,16 @@ def update_third_graph(time):
         "Occipital": "Occipital",
         "Linguistic": "Linguistic"
     }
+
+    df = JsonDataReader.read_to_df(electrode_list[0::2], person, stimulus)
+    average_df = pd.DataFrame()
+    average_df['Linguistic'] = df[['F7', 'T7']].mean(axis=1)
+    average_df['Anterior Frontal'] = df[['AF3', 'AF4']].mean(axis=1)
+    average_df['Frontal'] = df[['F7', 'F3', 'F4', 'F8']].mean(axis=1)
+    average_df['Central'] = df[['FC5', 'FC6']].mean(axis=1)
+    average_df['Temporal'] = df[['T7', 'T8']].mean(axis=1)
+    average_df['Posterior'] = df[['P7', 'P8']].mean(axis=1)
+    average_df['Occipital'] = df[['O1', 'O2']].mean(axis=1)
 
     dff = average_df[(average_df.index >= (time[0] / 7.8125)) & (average_df.index <= (time[1] / 7.8125))]
     trace = []

@@ -1,8 +1,13 @@
+import dash_html_components as html
+import dash_core_components as dcc
+
 from Visualisatieproject.callbacks import *
 from Visualisatieproject.components import Header
 from Visualisatieproject.jsondatareader import JsonDataReader
 
+
 people = JsonDataReader.get_people()
+stimuli = JsonDataReader.get_stimuli()
 
 noPage = html.Div([
     # CC Header
@@ -13,22 +18,34 @@ noPage = html.Div([
 index_page = html.Div([
     Header(),
     html.Div(id='hidden-div', style={'display':'none'}),
+    html.Div(id='hidden-person-div', style={'display':'none'}),
+    html.Div(id='hidden-stimulus-div', style={'display':'none'}),
     html.Div(
         [
             html.H1("EEG Data Visualisation"),
-            html.Button("Preprocess Data", id="button"),
-            html.H2("Selecteer een persoon om de EEG-visualisaties te zien"),
-            dcc.Dropdown(id="selected-value", multi=False, options=people)
+            html.H2("Maak de data klaar voor gebruik:"),
+            html.Button("Preprocess Data", id="button")
         ],
-        style={'textAlign': "center"}
-    )
-], className="page")
+        style={'textAlign': "center", "marginBottom": 75}
+    ),
+    html.H2("Selecteer een persoon en stimulus om hun bijhorende EEG-Visualisatie te zien", style={"textAlign": "center"}),
+    html.Div(
+            [
+                html.H4("Selecteer een persoon:"),
+                dcc.Dropdown(id="person-dropdown", multi=False, options=people)
+            ], style={"textAlign": "center", "width": "75%", "display": "inline-block"}),
+    html.Div(
+            [
+                html.H4("Selecteer een stimulus:"),
+                dcc.Dropdown(id="stimulus-dropdown", multi=False, options=stimuli)
+            ], style={"textAlign": "center", "width": "75%", "display": "inline-block", "marginTop": 20})
+], className="page", style={"textAlign": "center"})
 
 graph1 = html.Div([
     Header(),
     html.Div(
         [
-            html.H1("EEG Data From Barbara")
+            html.H1("EEG Evolution over time")
         ],
         style={'textAlign': "center"}
     ),
@@ -47,11 +64,11 @@ graph2 = html.Div([
     Header(),
     html.Div(
         [
-            html.H1(id="h1_title", children="Correlation between EEG Data From Barbara")
+            html.H1(id="h1_title", children="Correlation between EEG Data")
         ],
         style={"textAlign": "center"}
     ),
-    html.Div(id='hidden-div', style={'display':'none'}),
+    html.Div(id='hidden-div', style={'display': 'none'}),
     html.Div(
         [
             dcc.Graph(
@@ -93,7 +110,7 @@ graph3 = html.Div([
     Header(),
     html.Div(
         [
-            html.H1("EEG Data From Barbara - Group Average")
+            html.H1("EEG Data - Group Average")
         ],
         style={'textAlign': "center"}
     ),

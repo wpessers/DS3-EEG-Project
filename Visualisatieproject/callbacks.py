@@ -1,17 +1,13 @@
-import dash
-import os
-import json
-import plotly.graph_objs as go
-from Visualisatieproject.app import app
+import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-import pandas as pd
-import dash_core_components as dcc
-import dash_html_components as html
+import plotly.graph_objs as go
+
+from Visualisatieproject.app import app
 from dash.dependencies import Input, Output
+from Visualisatieproject.jsondatareader import JsonDataReader
 from Visualisatieproject.preprocessing.preprocessing import Preprocessing
 
-from Visualisatieproject.jsondatareader import JsonDataReader
 
 electrode_list = ["Anterior Frontal", ["AF3", "AF4"],
                   "Frontal", ["F7", "F3", "F4", "F8"],
@@ -21,12 +17,15 @@ electrode_list = ["Anterior Frontal", ["AF3", "AF4"],
                   "Occipital", ["O1", "O2"],
                   "Linguistic", ["F7", "T7"]]
 
-df = JsonDataReader.read_to_df(electrode_list[0::2], "Barbara", "beloof")
-print(df)
+person = "Barbara"
+stimulus = "beloof"
+
+df = JsonDataReader.read_to_df(electrode_list[0::2], person, stimulus)
+#print(df)
 
 cordf = df.corr()
 reversedcordf = cordf.iloc[::-1]
-print(reversedcordf)
+#print(reversedcordf)
 
 average_df = pd.DataFrame()
 average_df['Linguistic'] = df[['F7', 'T7']].mean(axis=1)
@@ -36,7 +35,31 @@ average_df['Central'] = df[['FC5', 'FC6']].mean(axis=1)
 average_df['Temporal'] = df[['T7', 'T8']].mean(axis=1)
 average_df['Posterior'] = df[['P7', 'P8']].mean(axis=1)
 average_df['Occipital'] = df[['O1', 'O2']].mean(axis=1)
-print(average_df)
+#print(average_df)
+
+
+@app.callback(
+    Output('hidden-person-div', 'children'),
+    [Input('person-dropdown', 'value')])
+def update_person(value):
+    global person
+    if value is None:
+        return "Nothing changed"
+    else:
+        print("Selected Person: %s" % value)
+        person = value
+
+
+@app.callback(
+    Output('hidden-stimulus-div', 'children'),
+    [Input('stimulus-dropdown', 'value')])
+def update_stimulus(value):
+    global stimulus
+    if value is None:
+        return "Nothing changed"
+    else:
+        print("Selected Stimulus: %s" % value)
+        stimulus = value
 
 
 @app.callback(
@@ -46,7 +69,7 @@ def update_figure(time):
     selected = ['AF3', 'AF4', 'F7', 'F3', 'F4', 'F8', 'FC5', 'FC6', 'T7', 'T8', 'P7', 'P8', 'O1', 'O2']
     text = {
         "AF3": "AF3",
-        "AF4":"AF4",
+        "AF4": "AF4",
         "F7": "F7",
         "F3": "F3",
         "F4": "F4",
@@ -61,15 +84,16 @@ def update_figure(time):
         "O2": "O2"
     }
 
-    dff = df[(df.index >= (time[0]/7.8125)) & (df.index <= (time[1]/7.8125))]
+    dff = df[(df.index >= (time[0] / 7.8125)) & (df.index <= (time[1] / 7.8125))]
     trace = []
     for type in selected:
-        trace.append(go.Scatter(x=(dff.index*7.8125), y=dff[type], name=text[type], mode='lines',
+        trace.append(go.Scatter(x=(dff.index * 7.8125), y=dff[type], name=text[type], mode='lines',
                                 marker={'size': 8, "opacity": 0.6, "line": {'width': 0.5}}, ))
     return {"data": trace,
             "layout": go.Layout(title="Evolutie Spanning", colorway=['#fdae61', '#abd9e9', '#2c7bb6'],
-                                yaxis={"showgrid":False, "title": "Spanning ( µV )"},
+                                yaxis={"showgrid": False, "title": "Spanning ( µV )"},
                                 xaxis={"showgrid": False, "title": "Tijdstip"})}
+
 
 @app.callback(
     [Output('second-graph', 'figure'),
@@ -121,18 +145,19 @@ def on_heatmap_click(data):
         }
 
         return {
-            'data': [trace1, trace2],
-            'layout': {
-                "height": 700,
-                "shapes": shapes,
-                'xaxis': {
-                    'title': x
-                },
-                'yaxis': {
-                    'title': y
-                }
-            }
-        }, "Lineair regression between {} and {} From Barbara".format(x, y)
+                   'data': [trace1, trace2],
+                   'layout': {
+                       "height": 700,
+                       "shapes": shapes,
+                       'xaxis': {
+                           'title': x
+                       },
+                       'yaxis': {
+                           'title': y
+                       }
+                   }
+               }, "Lineair regression between {} and {}".format(x, y)
+
 
 @app.callback(
     Output('third-graph', 'figure'),
@@ -141,7 +166,7 @@ def update_third_graph(time):
     selected = ['Anterior Frontal', 'Frontal', 'Central', 'Temporal', 'Posterior', 'Occipital', 'Linguistic']
     text = {
         "Anterior Frontal": "Anterior Frontal",
-        "Frontal":"Frontal",
+        "Frontal": "Frontal",
         "Central": "Central",
         "Temporal": "Temporal",
         "Posterior": "Posterior",
@@ -149,7 +174,7 @@ def update_third_graph(time):
         "Linguistic": "Linguistic"
     }
 
-    dff = average_df[(average_df.index >= (time[0]/7.8125)) & (average_df.index <= (time[1]/7.8125))]
+    dff = average_df[(average_df.index >= (time[0] / 7.8125)) & (average_df.index <= (time[1] / 7.8125))]
     trace = []
     for type in selected:
         if type == "Linguistic":
@@ -161,14 +186,15 @@ def update_third_graph(time):
 
     return {"data": trace,
             "layout": go.Layout(title="Evolutie Spanning", colorway=['#fdae61', '#abd9e9', '#2c7bb6'],
-                                yaxis={"showgrid":False, "title": "Spanning ( µV )"},
-                                xaxis={"showgrid":False, "title": "Tijdstip"})}
+                                yaxis={"showgrid": False, "title": "Spanning ( µV )"},
+                                xaxis={"showgrid": False, "title": "Tijdstip"})}
+
 
 @app.callback(
     Output('hidden-div', 'children'),
     [Input('button', 'n_clicks')])
 def run_preprocessing(n_clicks):
-    print("clicked!")
+    print("Preprocessing")
     data_dir = "../res/"
 
     electrode_list = ["Anterior Frontal", ["AF3", "AF4"],
@@ -181,3 +207,5 @@ def run_preprocessing(n_clicks):
 
     p = Preprocessing(data_dir, electrode_list)
     p.preprocess()
+
+    return "Preprocessing done"

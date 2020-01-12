@@ -15,7 +15,8 @@ class Preprocessing():
         csv_dir = self._data_dir + "input/"
         self.process_csv_files(csv_dir)
 
-    def organize_dirs(self):
+    @staticmethod
+    def organize_dirs():
         if not os.path.exists('../res/output'):
             os.makedirs('../res/output')
 
@@ -44,7 +45,8 @@ class Preprocessing():
 
                 self.write_json_file(json_data, person_name, stimulus)
 
-    def get_metadata(self, row):
+    @staticmethod
+    def get_metadata(row):
         stimulus = getattr(row, "INTERPOLATED")
         index = getattr(row, "Index")
         return stimulus, index
@@ -60,7 +62,8 @@ class Preprocessing():
 
         return electrode_group_dict
 
-    def calculate_electrodes_mean(self, electrodes_dict):
+    @staticmethod
+    def calculate_electrodes_mean(electrodes_dict):
         electrodes_df = pd.DataFrame.from_dict(electrodes_dict)
         mean_df = electrodes_df.mean(axis=1)
         mean_df = mean_df.round(4)

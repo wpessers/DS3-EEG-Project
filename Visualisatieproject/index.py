@@ -23,6 +23,7 @@ app.index_string = '''
         <footer>
             {%config%}
             {%scripts%}
+            {%renderer%}
         </footer>
         <div>Data Science 3 EEG Project</div>
     </body>

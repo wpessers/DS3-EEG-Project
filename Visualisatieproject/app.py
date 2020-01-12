@@ -16,7 +16,7 @@ electrode_list = ["Anterior Frontal", ["AF3", "AF4"],
                   "Occipital", ["O1", "O2"],
                   "Linguistic", ["F7", "T7"]]
 
-df = JsonDataReader.read_to_df(electrode_list[0::2])
+df = JsonDataReader.read_to_df(electrode_list[0::2], "Barbara", "beloof")
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 

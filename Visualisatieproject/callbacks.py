@@ -20,7 +20,7 @@ electrode_list = ["Anterior Frontal", ["AF3", "AF4"],
                   "Occipital", ["O1", "O2"],
                   "Linguistic", ["F7", "T7"]]
 
-df = JsonDataReader.read_to_df(electrode_list[0::2])
+df = JsonDataReader.read_to_df(electrode_list[0::2], "Barbara", "beloof")
 print(df)
 
 cordf = df.corr()
@@ -160,4 +160,5 @@ def update_third_graph(time):
 
     return {"data": trace,
             "layout": go.Layout(title="Evolutie Spanning", colorway=['#fdae61', '#abd9e9', '#2c7bb6'],
-                                yaxis={"title": "Spanning ( µV )"}, xaxis={"title": "Tijdstip"})}
+                                yaxis={"showgrid":False, "title": "Spanning ( µV )"},
+                                xaxis={"showgrid":False, "title": "Tijdstip"})}

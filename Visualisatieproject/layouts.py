@@ -32,28 +32,6 @@ graph1 = html.Div([
         style={'textAlign': "center"}
     ),
     html.Div(
-        [
-            dcc.Dropdown(id="selected-value", multi=True,
-                         value=["AF3", "AF4", "F7", "F3", "F4", "F8", "FC5", "FC6", "T7", "T8", "P7", "P8", "O1", "O2"],
-                         options=[{"label": "AF3", "value": "AF3"},
-                                  {"label": "AF4", "value": "AF4"},
-                                  {"label": "F7", "value": "F7"},
-                                  {"label": "F3", "value": "F3"},
-                                  {"label": "F4", "value": "AF4"},
-                                  {"label": "F8", "value": "F8"},
-                                  {"label": "FC5", "value": "FC5"},
-                                  {"label": "FC6", "value": "FC6"},
-                                  {"label": "T7", "value": "T7"},
-                                  {"label": "T8", "value": "T8"},
-                                  {"label": "P7", "value": "P7"},
-                                  {"label": "P8", "value": "P8"},
-                                  {"label": "O1", "value": "O1"},
-                                  {"label": "O2", "value": "O2"}])
-        ],
-        className="row", style={"display": "block", "width": "100%", "margin-left": "auto",
-                                "margin-right": "auto"}
-    ),
-    html.Div(
         [dcc.Graph(id="my-graph")]
     ),
     html.Div(
@@ -117,21 +95,6 @@ graph3 = html.Div([
             html.H1("EEG Data From Barbara - Group Average")
         ],
         style={'textAlign': "center"}
-    ),
-    html.Div(
-        [
-            dcc.Dropdown(id="selected-value-third-graph", multi=True,
-                         value=["Anterior Frontal", "Frontal", "Central", "Temporal", "Posterior", "Occipital", "Linguistic"],
-                         options=[{"label": "Anterior Frontal", "value": "Anterior Frontal"},
-                                  {"label": "Frontal", "value": "Frontal"},
-                                  {"label": "Central", "value": "Central"},
-                                  {"label": "Temporal", "value": "Temporal"},
-                                  {"label": "Posterior", "value": "Posterior"},
-                                  {"label": "Occipital", "value": "Occipital"},
-                                  {"label": "Linguistic", "value": "Linguistic"}])
-        ],
-        className="row", style={"display": "block", "width": "100%", "margin-left": "auto",
-                                "margin-right": "auto"}
     ),
     html.Div(
         [dcc.Graph(id="third-graph")]

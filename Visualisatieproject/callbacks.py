@@ -40,8 +40,9 @@ print(average_df)
 
 @app.callback(
     Output('my-graph', 'figure'),
-    [Input('selected-value', 'value'), Input('ms-range', 'value')])
-def update_figure(selected, time):
+    [Input('ms-range', 'value')])
+def update_figure(time):
+    selected = ['AF3', 'AF4', 'F7', 'F3', 'F4', 'F8', 'FC5', 'FC6', 'T7', 'T8', 'P7', 'P8', 'O1', 'O2']
     text = {
         "AF3": "AF3",
         "AF4":"AF4",
@@ -75,7 +76,6 @@ def update_figure(selected, time):
     [Input('second-graph', 'clickData')])
 def on_heatmap_click(data):
     if data is not None:
-        print(data)
         x = data['points'][0]['x']
         y = data['points'][0]['y']
         plt.clf()
@@ -135,8 +135,9 @@ def on_heatmap_click(data):
 
 @app.callback(
     Output('third-graph', 'figure'),
-    [Input('selected-value-third-graph', 'value'), Input('ms-range-third-graph', 'value')])
-def update_third_graph(selected, time):
+    [Input('ms-range-third-graph', 'value')])
+def update_third_graph(time):
+    selected = ['Anterior Frontal', 'Frontal', 'Central', 'Temporal', 'Posterior', 'Occipital', 'Linguistic']
     text = {
         "Anterior Frontal": "Anterior Frontal",
         "Frontal":"Frontal",

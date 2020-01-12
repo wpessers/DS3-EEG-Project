@@ -14,20 +14,9 @@ def main():
                       "Posterior", ["P7", "P8"],
                       "Occipital", ["O1", "O2"],
                       "Linguistic", ["F7", "T7"]]
-    '''
+
     p = Preprocessing(data_dir, electrode_list)
     p.preprocess()
-    '''
-    '''
-    lel = "Barbara"
-    lol = "beloof"
-    output_dir = "../res/output/"
-    file = output_dir + lel + "_" + lol + ".json"
-    with open(file, "r") as f:
-        data = json.load(f)
-    print(data)
-    '''
-    JsonDataReader.read_to_df(electrode_list[0::2], "Barbara", "bes")
 
 
 if __name__ == "__main__":

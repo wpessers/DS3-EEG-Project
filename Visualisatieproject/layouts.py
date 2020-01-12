@@ -1,7 +1,3 @@
-import dash_html_components as html
-import dash_core_components as dcc
-import plotly.graph_objs as go
-import colorlover as cl
 from Visualisatieproject.callbacks import *
 from Visualisatieproject.components import Header
 from Visualisatieproject.jsondatareader import JsonDataReader
@@ -21,7 +17,7 @@ index_page = html.Div([
             html.H1("EEG Data Visualisation"),
             html.Button("Preprocess Data", id="button"),
             html.H2("Selecteer een persoon om de EEG-visualisaties te zien"),
-            dcc.Dropdown(id="selected-value", multi=False, options=[people])
+            dcc.Dropdown(id="selected-value", multi=False, options=people)
         ],
         style={'textAlign': "center"}
     )

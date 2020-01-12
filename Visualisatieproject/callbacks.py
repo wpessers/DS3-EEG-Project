@@ -9,6 +9,7 @@ import pandas as pd
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
+from Visualisatieproject.preprocessing.preprocessing import Preprocessing
 
 from Visualisatieproject.jsondatareader import JsonDataReader
 
@@ -162,3 +163,21 @@ def update_third_graph(time):
             "layout": go.Layout(title="Evolutie Spanning", colorway=['#fdae61', '#abd9e9', '#2c7bb6'],
                                 yaxis={"showgrid":False, "title": "Spanning ( µV )"},
                                 xaxis={"showgrid":False, "title": "Tijdstip"})}
+
+@app.callback(
+    Output('hidden-div', 'children'),
+    [Input('button', 'n_clicks')])
+def run_preprocessing(n_clicks):
+    print("clicked!")
+    data_dir = "../res/"
+
+    electrode_list = ["Anterior Frontal", ["AF3", "AF4"],
+                      "Frontal", ["F7", "F3", "F4", "F8"],
+                      "Central", ["FC5", "FC6"],
+                      "Temporal", ["T7", "T8"],
+                      "Posterior", ["P7", "P8"],
+                      "Occipital", ["O1", "O2"],
+                      "Linguistic", ["F7", "T7"]]
+
+    p = Preprocessing(data_dir, electrode_list)
+    p.preprocess()

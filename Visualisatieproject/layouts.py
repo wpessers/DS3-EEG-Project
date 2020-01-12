@@ -12,6 +12,7 @@ noPage = html.Div([
 
 index_page = html.Div([
     Header(),
+    html.Div(id='hidden-div', style={'display':'none'}),
     html.Div(
         [
             html.H1("EEG Data Visualisation"),

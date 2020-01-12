@@ -27,7 +27,6 @@ class Preprocessing():
             df = pd.read_csv(csv_file, sep="\t")
             df = df[df["INTERPOLATED"].notnull()]
             df = df.round(4)
-            print(df)
             self.dataframe_to_json(df, person_name)
 
     def dataframe_to_json(self, df, person_name, rows=256):
@@ -52,28 +51,20 @@ class Preprocessing():
 
     def get_electrodes_data(self, df, start, end, electrodes):
         electrode_group_dict = {}
+        electrodes_dict = {}
         for electrode in electrodes:
-            #electrode_dict = {}
-            #raw_df = df.loc[start:end, electrode]
-
-            #electrode_dict["data"] = json.loads(raw_df.to_json(orient="records"))
-            #electrode_dict["stats"] = self.get_statistics(raw_df)
-
+            electrodes_dict[electrode] = df.loc[start:end, electrode]
             electrode_group_dict[electrode] = json.loads(df.loc[start:end, electrode].to_json(orient="records"))
+
+        electrode_group_dict["mean"] = self.calculate_electrodes_mean(electrodes_dict)
+
         return electrode_group_dict
 
-    #Voorlopig achterwege laten
-    #TODO: Antwoord afwachten van H. De Smet
-    '''
-    def get_statistics(self, df: pd.DataFrame):
-        stats_dict = {"min": df.min(),
-                      "max": df.max(),
-                      "mean": df.mean(),
-                      "median": df.median(),
-                      "stddev": df.std(ddof=0),
-                      "variance": df.var(ddof=0)}
-        return stats_dict
-    '''
+    def calculate_electrodes_mean(self, electrodes_dict):
+        electrodes_df = pd.DataFrame.from_dict(electrodes_dict)
+        mean_df = electrodes_df.mean(axis=1)
+        mean_df = mean_df.round(4)
+        return json.loads(mean_df.to_json(orient="records"))
 
     def write_json_file(self, dict, name, stimulus):
         self.organize_dirs()

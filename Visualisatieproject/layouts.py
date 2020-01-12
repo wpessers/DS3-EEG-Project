@@ -11,6 +11,18 @@ noPage = html.Div([
     html.P(["404 Page not found"])
 ], className="page")
 
+index_page = html.Div([
+    Header(),
+    html.Div(
+        [
+            html.H1("EEG Data Visualisation"),
+            html.Button("Preprocess Data", id="button"),
+            dcc.Dropdown(id="selected-value", multi=False, value=[])
+        ],
+        style={'textAlign': "center"}
+    )
+], className="page")
+
 graph1 = html.Div([
     Header(),
     html.Div(
@@ -28,7 +40,7 @@ graph1 = html.Div([
                                   {"label": "F7", "value": "F7"},
                                   {"label": "F3", "value": "F3"},
                                   {"label": "F4", "value": "AF4"},
-                                  {"label": "F8", "value": "AF8"},
+                                  {"label": "F8", "value": "F8"},
                                   {"label": "FC5", "value": "FC5"},
                                   {"label": "FC6", "value": "FC6"},
                                   {"label": "T7", "value": "T7"},

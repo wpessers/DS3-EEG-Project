@@ -3,7 +3,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 from Visualisatieproject.app import server
 from Visualisatieproject.app import app
-from Visualisatieproject.layouts import noPage, graph1, graph2, graph3
+from Visualisatieproject.layouts import noPage, index_page, graph1, graph2, graph3
 
 import pandas as pd
 import io
@@ -41,9 +41,9 @@ app.layout = html.Div([
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
 def display_page(pathname):
-    if  pathname == '/index/':
-        return noPage
-    if  pathname == '/graph1/':
+    if pathname == '/index/':
+        return index_page
+    if pathname == '/graph1/':
         return graph1
     if pathname == "/graph2/":
         return graph2

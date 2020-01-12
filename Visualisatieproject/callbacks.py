@@ -66,7 +66,8 @@ def update_figure(selected, time):
                                 marker={'size': 8, "opacity": 0.6, "line": {'width': 0.5}}, ))
     return {"data": trace,
             "layout": go.Layout(title="Evolutie Spanning", colorway=['#fdae61', '#abd9e9', '#2c7bb6'],
-                                yaxis={"title": "Spanning ( µV )"}, xaxis={"title": "Tijdstip"})}
+                                yaxis={"showgrid":False, "title": "Spanning ( µV )"},
+                                xaxis={"showgrid": False, "title": "Tijdstip"})}
 
 @app.callback(
     [Output('second-graph', 'figure'),
